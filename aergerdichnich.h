@@ -7,173 +7,152 @@
 #define GRN "\e[1;32m"
 #define RESET "\e[0m"
 
+using namespace std;
+
 void clearconsole(){
     printf("\e[1;1H\e[2J");
 }
 
-void printCell(int cellValue){
-    if(cellValue == 0){
-        printf("+ ");
-    }if(cellValue == 1){
-        printf(RED "O " RESET);
-    }if(cellValue == 2){
-        printf(BLU "O " RESET);
-    }if(cellValue == 3){
-        printf(YLW "O " RESET);
-    }if(cellValue == 4){
-        printf(GRN "O " RESET);
-    }
-}
-void printBank(int coordinate, int value, int clr){
-    if(coordinate <= value){
-        if(clr == 1){
-            printf(RED "O " RESET);
-        }if(clr == 2){
-            printf(BLU "O " RESET);
-        }if(clr == 3){
-            printf(YLW "O " RESET);
-        }if(clr == 4){
-            printf(GRN "O " RESET);
-        }
-    }else{
-        printf("+ ");
-    }
-}
-void printHouse(int coordinate, int value, int clr){
-    if(coordinate <= value){
-        if(clr == 1){
-            printf(RED "O " RESET);
-        }if(clr == 2){
-            printf(BLU "O " RESET);
-        }if(clr == 3){
-            printf(YLW "O " RESET);
-        }if(clr == 4){
-            printf(GRN "O " RESET);
-        }
-    }else{
-        if(clr == 2 || clr == 3){
-            printf("| ");
-        }if(clr == 1 || clr == 4){
-            printf("- ");
-        }
-    }
-}
+class Board {
+    public:
+    char board[40];
+    char yellowHouse[4];
+    char blueHouse[4];
+    char greenHouse[4];
+    char redHouse[4];
+    int yellowOnField;
+    int blueOnField;
+    int greenOnField;
+    int redOnField;
 
-void printBoard(int strecke[40], int red, int blue, int yellow, int green, int redHouse, int blueHouse, int ylwHouse, int greenHouse){
-    //Zeile 1
-    printBank(1, red, 1);
-    printBank(2, red, 1);
-    printf("    ");
-    printCell(strecke[0]);
-    printCell(strecke[1]);
-    printCell(strecke[2]);
-    printf("    ");
-    printBank(1, blue, 2);
-    printBank(2, blue, 2);
-    printf("\n");
-    //Zeile 2
-    printBank(3, red, 1);
-    printBank(4, red, 1);
-    printf("    ");
-    printCell(strecke[39]);
-    //printf(" ");
-    printHouse(4, blueHouse, 2);
-    printCell(strecke[3]);
-    printf("    ");
-    printBank(3, blue, 2);
-    printBank(4, blue, 2);
-    printf("\n");
-    //Zeile 3
-    printf("        ");
-    printCell(strecke[38]);
-    //printf(" ");
-    printHouse(3, blueHouse, 2);
-    printCell(strecke[4]);
-    printf("        \n");
-    //Zeile 4
-    printf("        ");
-    printCell(strecke[37]);
-    //printf(" ");
-    printHouse(2, blueHouse, 2);
-    printCell(strecke[5]);
-    printf("        \n");
-    //Zeile 5
-    printCell(strecke[32]);
-    printCell(strecke[33]);
-    printCell(strecke[34]);
-    printCell(strecke[35]);
-    printCell(strecke[36]);
-    //printf(" ");
-    printHouse(1, blueHouse, 2);
-    printCell(strecke[6]);
-    printCell(strecke[7]);
-    printCell(strecke[8]);
-    printCell(strecke[9]);
-    printCell(strecke[10]);
-    printf("\n");
-    //Zeile 6
-    printCell(strecke[31]);
-    printHouse(4, redHouse, 1);
-    printHouse(3, redHouse, 1);
-    printHouse(2, redHouse, 1);
-    printHouse(1, redHouse, 1);
-    printf("  ");
-    printHouse(1, greenHouse, 4);
-    printHouse(2, greenHouse, 4);
-    printHouse(3, greenHouse, 4);
-    printHouse(4, greenHouse, 4);
-    printCell(strecke[11]);
-    printf("\n");
-    //Zeile 7
-    printCell(strecke[30]);
-    printCell(strecke[29]);
-    printCell(strecke[28]);
-    printCell(strecke[27]);
-    printCell(strecke[26]);
-    //printf(" ");
-    printHouse(1, ylwHouse, 3);
-    printCell(strecke[16]);
-    printCell(strecke[15]);
-    printCell(strecke[14]);
-    printCell(strecke[13]);
-    printCell(strecke[12]);
-    printf("\n");
-    //Zeile 8
-    printf("        ");
-    printCell(strecke[25]);
-    //printf(" ");
-    printHouse(2, ylwHouse, 3);
-    printCell(strecke[17]);
-    printf("        \n");
-    //Zeile 9
-    printf("        ");
-    printCell(strecke[24]);
-    //printf(" ");
-    printHouse(3, ylwHouse, 3);
-    printCell(strecke[18]);
-    printf("        \n");
-    //Zeile 10
-    printBank(1, yellow, 3);
-    printBank(2, yellow, 3);
-    printf("    ");
-    printCell(strecke[23]);
-    //printf(" ");
-    printHouse(4, ylwHouse, 3);
-    printCell(strecke[19]);
-    printf("    ");
-    printBank(1, green, 4);
-    printBank(2, green, 4);
-    printf("\n");
-    //Zeile 11
-    printBank(3, yellow, 3);
-    printBank(4, yellow, 3);
-    printf("    ");
-    printCell(strecke[22]);
-    printCell(strecke[21]);
-    printCell(strecke[20]);
-    printf("    ");
-    printBank(3, green, 4);
-    printBank(4, green, 4);
-    printf("\n");
-    
-}
+
+    Board(){
+        for(int i = 0; i < 40; i++){
+            board[i] = 'e';
+        }
+        for(int i = 0; i < 4; i++){
+            yellowHouse[i] = 'e';
+            blueHouse[i] = 'e';
+            redHouse[i] = 'e';
+            greenHouse[i] = 'e';
+        }
+        blueOnField = 0;
+        redOnField = 0;
+        yellowOnField = 0;
+        greenOnField = 0;
+    }
+    ~Board(){
+    }
+    void printField(int i){
+        if(board[i] == 'g'){
+            cout << GRN " X" RESET;
+        }if(board[i] == 'b'){
+            cout << BLU " X" RESET;
+        }if(board[i] == 'r'){
+            cout << RED " X" RESET;
+        }if(board[i] == 'y'){
+            cout << YLW " X" RESET;
+        }if(board[i] == 'e'){
+            cout << " O";
+        }
+    }
+    void printBoard(){
+        if(redOnField < 4) {cout << RED " X" RESET;} else{cout << " O";}
+        if(redOnField < 3) {cout << RED " X" RESET;} else{cout << " O";}
+        cout << "    ";
+        printField(0);
+        printField(1);
+        printField(2);
+        cout << "    ";
+        if(blueOnField < 4) {cout << BLU " X" RESET;} else{cout << " O";}
+        if(blueOnField < 3) {cout << BLU " X" RESET << endl;} else{cout << " O" << endl;}
+        if(redOnField < 2) {cout << RED " X" RESET;} else{cout << " O";}
+        if(redOnField < 1) {cout << RED " X" RESET;} else{cout << " O";}
+        cout << "    ";
+        printField(39);
+        if(blueHouse[0] == 'b') {cout << BLU " X" RESET;} else{cout << " O";}
+        printField(3);
+        cout << "    ";
+        if(blueOnField < 2) {cout << BLU " X" RESET;} else{cout << " O";}
+        if(blueOnField < 1) {cout << BLU " X" RESET << endl;} else{cout << " O" << endl;}
+        cout << "        ";
+        printField(38);
+        if(blueHouse[1] == 'b') {cout << BLU " X" RESET;} else{cout << " O";}
+        printField(4);
+        cout << "        " << endl;
+        cout << "        ";
+        printField(37);
+        if(blueHouse[2] == 'b') {cout << BLU " X" RESET;} else{cout << " O";}
+        printField(5);
+        cout << "        " << endl;
+        printField(32);
+        printField(33);
+        printField(34);
+        printField(35);
+        printField(36);
+        if(blueHouse[3] == 'b') {cout << BLU " X" RESET;} else{cout << " O";}
+        printField(6);
+        printField(7);
+        printField(8);
+        printField(9);
+        printField(10);
+        cout << endl;
+        printField(31);
+        if(redHouse[0] == 'r') {cout << RED " X" RESET;} else{cout << " O";}
+        if(redHouse[1] == 'r') {cout << RED " X" RESET;} else{cout << " O";}
+        if(redHouse[2] == 'r') {cout << RED " X" RESET;} else{cout << " O";}
+        if(redHouse[3] == 'r') {cout << RED " X" RESET;} else{cout << " O";}
+        cout << "  ";
+        if(greenHouse[3] == 'g') {cout << GRN " X" RESET;} else{cout << " O";}
+        if(greenHouse[2] == 'g') {cout << GRN " X" RESET;} else{cout << " O";}
+        if(greenHouse[1] == 'g') {cout << GRN " X" RESET;} else{cout << " O";}
+        if(greenHouse[0] == 'g') {cout << GRN " X" RESET;} else{cout << " O";}
+        printField(11);
+        cout << endl;
+        printField(30);
+        printField(29);
+        printField(28);
+        printField(27);
+        printField(26);
+        if(yellowHouse[3] == 'y') {cout << YLW " X" RESET;} else{cout << " O";}
+        printField(16);
+        printField(15);
+        printField(14);
+        printField(13);
+        printField(12);
+        cout << endl;
+        cout << "        ";
+        printField(25);
+        if(yellowHouse[2] == 'y') {cout << YLW " X" RESET;} else{cout << " O";}
+        printField(17);
+        cout << "        " << endl;
+        cout << "        ";
+        printField(24);
+        if(yellowHouse[1] == 'y') {cout << YLW " X" RESET;} else{cout << " O";}
+        printField(18);
+        cout << "        " << endl;
+        if(yellowOnField < 4) {cout << YLW " X" RESET;} else{cout << " O";}
+        if(yellowOnField < 3) {cout << YLW " X" RESET;} else{cout << " O";}
+        cout << "    ";
+        printField(23);
+        if(yellowHouse[0] == 'y') {cout << YLW " X" RESET;} else{cout << " O";}
+        printField(19);
+        cout << "    ";
+        if(greenOnField < 4) {cout << GRN " X" RESET;} else{cout << " O";}
+        if(greenOnField < 3) {cout << GRN " X" RESET << endl;} else{cout << " O" << endl;}
+        if(yellowOnField < 2) {cout << YLW " X" RESET;} else{cout << " O";}
+        if(yellowOnField < 1) {cout << YLW " X" RESET;} else{cout << " O";}
+        cout << "    ";
+        printField(22);
+        printField(21);
+        printField(20);
+        cout << "    ";
+        if(greenOnField < 2) {cout << GRN " X" RESET;} else{cout << " O";}
+        if(greenOnField < 1) {cout << GRN " X" RESET << endl;} else{cout << " O" << endl;}
+        return;
+    };
+
+
+
+
+};
